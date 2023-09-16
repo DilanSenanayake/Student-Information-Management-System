@@ -1,10 +1,10 @@
-package com.example.SIMS;
+package com.SIMS;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoTestApplicationTests {
+class SIMSApplicationTests {
 
 	@Test
 	void contextLoads() {

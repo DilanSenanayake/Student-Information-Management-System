@@ -1,13 +1,13 @@
-package com.example.SIMS;
+package com.SIMS;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoTestApplication {
+public class SIMSApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoTestApplication.class, args);
+		SpringApplication.run(SIMSApplication.class, args);
 	}
 
 }

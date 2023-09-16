@@ -1,7 +1,7 @@
-package com.example.SIMS.controller;
-import com.example.SIMS.model.entity.Profile;
-import com.example.SIMS.model.dto.ResponseDto;
-import com.example.SIMS.service.StudentService;
+package com.SIMS.controller;
+import com.SIMS.model.entity.Profile;
+import com.SIMS.service.StudentService;
+import com.SIMS.model.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -36,6 +36,11 @@ public class StudentsController {
     public ResponseDto updateProfile(@PathVariable String studentId,
                                      @RequestBody Profile profile) throws Exception {
         return studentService.updateProfile(studentId, profile);
+    }
+
+    @DeleteMapping(value = "/students/{studentId}")
+    public ResponseDto deleteStudent(@PathVariable String studentId) throws Exception {
+        return studentService.deleteStudent(studentId);
     }
 
 }

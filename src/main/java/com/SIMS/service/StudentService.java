@@ -1,8 +1,8 @@
-package com.example.SIMS.service;
+package com.SIMS.service;
 
-import com.example.SIMS.model.entity.Profile;
-import com.example.SIMS.model.dto.ResponseDto;
-import com.example.SIMS.repository.StudentRepository;
+import com.SIMS.model.entity.Profile;
+import com.SIMS.model.dto.ResponseDto;
+import com.SIMS.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -59,9 +59,18 @@ public class StudentService {
         profile.setStudentId(studentId);
         Profile updatedProfile = studentRepository.updateProfile(profile);
         if (updatedProfile != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"student updated", updatedProfile);
+            return new ResponseDto(HttpStatus.OK.toString(),"Student updated", updatedProfile);
         } else {
             throw new Exception("Student not updated");
+        }
+    }
+
+    public ResponseDto deleteStudent(String studentId) throws Exception {
+        Profile deletedProfile = studentRepository.deleteStudent(studentId);
+        if (deletedProfile != null) {
+            return new ResponseDto(HttpStatus.OK.toString(),"Student deleted", deletedProfile);
+        } else {
+            throw new Exception("Student not deleted");
         }
     }
 }

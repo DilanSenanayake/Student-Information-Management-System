@@ -1,4 +1,4 @@
-package com.example.SIMS.model.dto;
+package com.SIMS.model.dto;
 import java.io.Serializable;
 
 public class ResponseDto implements Serializable {
