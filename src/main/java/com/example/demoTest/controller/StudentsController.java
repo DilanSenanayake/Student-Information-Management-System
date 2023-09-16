@@ -17,7 +17,7 @@ public class StudentsController {
         this.studentService = studentService;
     }
 
-    @PostMapping(value = "/students")
+    @PostMapping(value = "/profile")
     public ResponseDto createProfile(@Valid @RequestBody Profile profile) throws Exception {
         return studentService.createProfile(profile);
     }

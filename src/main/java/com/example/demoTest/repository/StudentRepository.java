@@ -4,6 +4,7 @@ import com.example.demoTest.model.entity.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface studentRepository {
+public interface StudentRepository {
     Profile saveProfile(Profile profile);
+    Profile getProfileByEmail(String email);
 }
