@@ -1,4 +1,4 @@
-package com.example.demoTest.model.entity;
+package com.example.SIMS.model.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
