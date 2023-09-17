@@ -43,7 +43,7 @@ public class StudentService {
     public ResponseDto getAllStudents() {
         List<String> students;
         students = studentRepository.getAllStudents();
-        return new ResponseDto(HttpStatus.OK.toString(),"All students are found", students);
+        return new ResponseDto(HttpStatus.OK.toString(),"All students found", students);
     }
 
     public ResponseDto getStudentById(String studentId) {
