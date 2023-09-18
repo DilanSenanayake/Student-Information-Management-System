@@ -11,6 +11,12 @@ public class Course {
     private String name;
     private List<String> students;
 
+    public Course(String courseId, String name, List<String> students) {
+        this.courseId = courseId;
+        this.name = name;
+        this.students = students;
+    }
+
     public String getCourseId() {
         return courseId;
     }

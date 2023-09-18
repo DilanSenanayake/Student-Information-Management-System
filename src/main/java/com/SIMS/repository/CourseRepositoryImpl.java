@@ -1,7 +1,6 @@
 package com.SIMS.repository;
 
 import com.SIMS.model.entity.Course;
-import com.SIMS.model.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -47,17 +45,25 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public Course updateCourse(Course course) throws Exception {
         Course existingCourse = getCourseById(course.getCourseId());
-        Query query = new Query();
-        query.addCriteria(Criteria.where("courseId").is(course.getCourseId()));
-        Update update = new Update();
-        update.set("Name",course.getName());
-        update.set("students", course.getStudents());
-        if (existingCourse != null) {
+        if (existingCourse == null) {
+            throw new Exception("Course not found");
+        } else {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("courseId").is(course.getCourseId()));
+            Update update = new Update();
+            update.set("Name",course.getName());
+            if (course.getStudents() != null) {
+                List<String> students = existingCourse.getStudents();
+                for (String element : course.getStudents()) {
+                    if (!students.contains(element)) {
+                        students.add(element);
+                    }
+                }
+                update.set("students",students);
+            }
             FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions();
             findAndModifyOptions.returnNew(true);
             return mongoTemplate.findAndModify(query, update, findAndModifyOptions, Course.class);
-        } else {
-            throw new Exception("Course not found");
         }
     }
 
