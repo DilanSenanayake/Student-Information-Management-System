@@ -1,14 +1,17 @@
 package com.SIMS.repository;
 
 import com.SIMS.model.entity.Course;
+import com.SIMS.model.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,13 +56,26 @@ public class CourseRepositoryImpl implements CourseRepository {
             Update update = new Update();
             update.set("Name",course.getName());
             if (course.getStudents() != null) {
-                List<String> students = existingCourse.getStudents();
-                for (String element : course.getStudents()) {
-                    if (!students.contains(element)) {
-                        students.add(element);
+                if (existingCourse.getStudents() != null) {
+                    List<String> students = existingCourse.getStudents();
+                    for (String studentId : course.getStudents()) {
+                        if (!students.contains(studentId)) {
+                            students.add(studentId);
+                        }
                     }
+                    update.set("students",students);
+                } else {
+                    List<String> students = new ArrayList<>(course.getStudents());
+                    update.set("students",students);
                 }
-                update.set("students",students);
+                // update student's course list
+                for (String studentId : course.getStudents()) {
+                    // to do: check for already exist students
+                    Query updateQuery = new Query();
+                    updateQuery.addCriteria(Criteria.where("studentId").is(studentId));
+                    Update updateStudent = new Update().push("courses", studentId);
+                    mongoTemplate.updateFirst(updateQuery, updateStudent, Profile.class);
+                }
             }
             FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions();
             findAndModifyOptions.returnNew(true);

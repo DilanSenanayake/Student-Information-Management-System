@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnrollmentRepository {
-    Course enroll(String studentId, String courseId) throws Exception;
+    String enroll(String studentId, String courseId) throws Exception;
 }

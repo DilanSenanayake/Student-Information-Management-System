@@ -2,6 +2,8 @@ package com.SIMS.model.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.List;
+
 @Entity
 public class Profile {
     @Id
@@ -9,7 +11,7 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String email;
-
+    private List<String> courses;
 
     public String getStudentId() {
         return studentId;
@@ -41,5 +43,13 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<String> courses) {
+        this.courses = courses;
     }
 }
