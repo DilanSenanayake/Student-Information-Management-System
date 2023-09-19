@@ -1,4 +1,5 @@
-#Student Information Management System 
+Student Information Management System
+
 Creating a REST API for a student information system with two entities, Student and Course, where a 
 student can enroll in many courses, involves designing endpoints for performing various CRUD (Create, 
 Read, Update, Delete) operations on both entities. Below, I describe the REST endpoints and their 
