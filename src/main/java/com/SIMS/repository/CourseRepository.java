@@ -1,7 +1,7 @@
 package com.SIMS.repository;
 
 import com.SIMS.model.entity.Course;
-import com.SIMS.model.entity.Profile;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,5 +14,5 @@ public interface CourseRepository {
 
     Course updateCourse(Course course) throws Exception;
 
-    Course deleteCourse(String courseId) throws Exception;
+    DeleteResult deleteCourse(String courseId) throws Exception;
 }

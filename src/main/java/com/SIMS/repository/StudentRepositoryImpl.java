@@ -1,6 +1,7 @@
 package com.SIMS.repository;
 
 import com.SIMS.model.entity.Profile;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -72,16 +73,12 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public Profile deleteStudent(String studentId) throws Exception {
+    public DeleteResult deleteStudent(String studentId) throws Exception {
         Profile existingProfile = getStudentById(studentId);
         Query query = new Query();
         query.addCriteria(Criteria.where("studentId").is(studentId));
-        Update update = new Update();
-        update.set("isDeleted",true);
         if (existingProfile != null) {
-            FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions();
-            findAndModifyOptions.returnNew(true);
-            return mongoTemplate.findAndModify(query, update, findAndModifyOptions, Profile.class);
+            return mongoTemplate.remove(query, Profile.class);
         } else {
             throw new Exception("Student not found");
         }

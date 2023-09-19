@@ -3,6 +3,7 @@ package com.SIMS.service;
 import com.SIMS.model.entity.Profile;
 import com.SIMS.model.dto.ResponseDto;
 import com.SIMS.repository.StudentRepository;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,18 +33,21 @@ public class StudentService {
             createdProfile = studentRepository.saveProfile(profile);
 
             if (createdProfile != null) {
-                return new ResponseDto(HttpStatus.CREATED.toString(),"Profile created successfully", null);
+                return new ResponseDto(HttpStatus.CREATED.toString(),"Profile created successfully", createdProfile);
             } else {
-                throw new Exception("Profile creation failed");
+                return new ResponseDto(HttpStatus.CREATED.toString(),"Profile creation failed", null);
             }
         }
 
     }
 
     public ResponseDto getAllStudents() {
-        List<String> students;
-        students = studentRepository.getAllStudents();
-        return new ResponseDto(HttpStatus.OK.toString(),"All students found", students);
+        List<String> students = studentRepository.getAllStudents();
+        if (students != null) {
+            return new ResponseDto(HttpStatus.OK.toString(),"All students found", students);
+        } else {
+            return new ResponseDto(HttpStatus.OK.toString(),"All students not found", null);
+        }
     }
 
     public ResponseDto getStudentById(String studentId) {
@@ -61,16 +65,16 @@ public class StudentService {
         if (updatedProfile != null) {
             return new ResponseDto(HttpStatus.OK.toString(),"Student updated", updatedProfile);
         } else {
-            throw new Exception("Student not updated");
+            return new ResponseDto(HttpStatus.OK.toString(),"Student not updated", null);
         }
     }
 
     public ResponseDto deleteStudent(String studentId) throws Exception {
-        Profile deletedProfile = studentRepository.deleteStudent(studentId);
-        if (deletedProfile != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"Student deleted", deletedProfile);
+        DeleteResult deleteResult = studentRepository.deleteStudent(studentId);
+        if (deleteResult != null) {
+            return new ResponseDto(HttpStatus.OK.toString(),"Student deleted", deleteResult);
         } else {
-            throw new Exception("Student not deleted");
+            return new ResponseDto(HttpStatus.OK.toString(),"Student not deleted", null);
         }
     }
 }

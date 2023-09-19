@@ -4,6 +4,7 @@ import com.SIMS.model.dto.ResponseDto;
 import com.SIMS.model.entity.Course;
 import com.SIMS.model.entity.Profile;
 import com.SIMS.repository.CourseRepository;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,18 @@ public class CourseService {
         if (createdCourse != null) {
             return new ResponseDto(HttpStatus.CREATED.toString(),"Course created successfully", null);
         } else {
-            throw new Exception("Course creation failed");
+            return new ResponseDto(HttpStatus.CREATED.toString(),"Course creation failed", null);
         }
     }
 
     public ResponseDto getAllCourses() {
-        List<String> courses;
-        courses = courseRepository.getAllCourses();
-        return new ResponseDto(HttpStatus.OK.toString(),"All courses found", courses);
+        List<String> courses = courseRepository.getAllCourses();
+        if (courses != null) {
+            return new ResponseDto(HttpStatus.OK.toString(),"All courses found", courses);
+        } else {
+            return new ResponseDto(HttpStatus.OK.toString(),"All courses not found", null);
+        }
+
     }
 
     public ResponseDto getCourseById(String courseId) {
@@ -53,16 +58,16 @@ public class CourseService {
         if (updatedCourse != null) {
             return new ResponseDto(HttpStatus.OK.toString(),"Course updated", updatedCourse);
         } else {
-            throw new Exception("Course not updated");
+            return new ResponseDto(HttpStatus.OK.toString(),"Course not updated", null);
         }
     }
 
     public ResponseDto deleteCourse(String courseId) throws Exception {
-        Course deletedCourse = courseRepository.deleteCourse(courseId);
-        if (deletedCourse != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"Course deleted", deletedCourse);
+        DeleteResult deleteResult = courseRepository.deleteCourse(courseId);
+        if (deleteResult != null) {
+            return new ResponseDto(HttpStatus.OK.toString(),"Course deleted", deleteResult);
         } else {
-            throw new Exception("Course not deleted");
+            return new ResponseDto(HttpStatus.OK.toString(),"Course not deleted", null);
         }
     }
 }

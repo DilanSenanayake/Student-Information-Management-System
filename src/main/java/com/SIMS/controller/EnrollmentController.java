@@ -24,4 +24,16 @@ public class EnrollmentController {
     public ResponseDto enroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
         return enrollmentService.enroll(studentId, courseId);
     }
+    @GetMapping(value = "/students/{studentId}/enrollments")
+    public ResponseDto coursesEnrolledByStudent(@PathVariable String studentId) throws Exception {
+        return enrollmentService.coursesEnrolledByStudent(studentId);
+    }
+    @GetMapping(value = "/courses/{courseId}/enrollments")
+    public ResponseDto studentsEnrolledToCourse(@PathVariable String courseId) throws Exception {
+        return enrollmentService.studentsEnrolledToCourse(courseId);
+    }
+    @DeleteMapping(value = "/students/{studentId}/enrollments/{courseId}")
+    public ResponseDto unEnroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
+        return enrollmentService.unEnroll(studentId, courseId);
+    }
 }

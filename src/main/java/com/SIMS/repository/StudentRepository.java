@@ -1,6 +1,7 @@
 package com.SIMS.repository;
 
 import com.SIMS.model.entity.Profile;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface StudentRepository {
     List<String> getAllStudents();
     Profile getStudentById(String studentId);
     Profile updateProfile(Profile profile) throws Exception;
-    Profile deleteStudent(String studentId) throws Exception;
+    DeleteResult deleteStudent(String studentId) throws Exception;
 }
