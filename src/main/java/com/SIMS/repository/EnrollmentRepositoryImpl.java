@@ -31,8 +31,23 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
             Profile existingStudent =  mongoTemplate.findOne(queryStudent, Profile.class);
             if (existingStudent != null) {
                 List<String> courses = existingStudent.getCourses();
-                assert courses != null;
-                if (!courses.contains(courseId)) {
+                if (courses != null) {
+                    if (!courses.contains(courseId)) {
+                        Query updateQuery = new Query();
+                        updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
+                        Update update = new Update().push("students", studentId);
+                        mongoTemplate.updateFirst(updateQuery, update, Course.class);
+
+                        // update student's course list
+                        Query studentQuery = new Query();
+                        studentQuery.addCriteria(Criteria.where("studentId").is(studentId));
+                        Update updateStudent = new Update().push("courses", courseId);
+                        mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
+                        return "Enrolled successfully.";
+                    } else {
+                        throw new Exception("Student already enrolled");
+                    }
+                } else {
                     Query updateQuery = new Query();
                     updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
                     Update update = new Update().push("students", studentId);
@@ -44,8 +59,6 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                     Update updateStudent = new Update().push("courses", courseId);
                     mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                     return "Enrolled successfully.";
-                } else {
-                    throw new Exception("Student already enrolled");
                 }
             } else {
                 throw new Exception("Student not found");
@@ -89,21 +102,24 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
             Profile existingStudent =  mongoTemplate.findOne(queryStudent, Profile.class);
             if (existingStudent != null) {
                 List<String> courses = existingStudent.getCourses();
-                assert courses != null;
-                if (!courses.contains(courseId)) {
-                    Query updateQuery = new Query();
-                    updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
-                    Update update = new Update().pull("students", studentId);
-                    mongoTemplate.updateFirst(updateQuery, update, Course.class);
+                if (courses != null) {
+                    if (courses.contains(courseId)) {
+                        Query updateQuery = new Query();
+                        updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
+                        Update update = new Update().pull("students", studentId);
+                        mongoTemplate.updateFirst(updateQuery, update, Course.class);
 
-                    // update student's course list
-                    Query studentQuery = new Query();
-                    studentQuery.addCriteria(Criteria.where("studentId").is(studentId));
-                    Update updateStudent = new Update().pull("courses", courseId);
-                    mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
-                    return "UnEnrolled successfully.";
+                        // update student's course list
+                        Query studentQuery = new Query();
+                        studentQuery.addCriteria(Criteria.where("studentId").is(studentId));
+                        Update updateStudent = new Update().pull("courses", courseId);
+                        mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
+                        return "UnEnrolled successfully.";
+                    } else {
+                        throw new Exception("Student already unenrolled");
+                    }
                 } else {
-                    throw new Exception("Student already unenrolled");
+                    throw  new Exception("Student not enrolled any courses");
                 }
             } else {
                 throw new Exception("Student not found");

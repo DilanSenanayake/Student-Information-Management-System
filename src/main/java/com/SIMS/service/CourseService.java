@@ -27,7 +27,7 @@ public class CourseService {
         Course createdCourse;
         createdCourse = courseRepository.createCourse(course);
         if (createdCourse != null) {
-            return new ResponseDto(HttpStatus.CREATED.toString(),"Course created successfully", null);
+            return new ResponseDto(HttpStatus.CREATED.toString(),"Course created successfully", createdCourse);
         } else {
             return new ResponseDto(HttpStatus.CREATED.toString(),"Course creation failed", null);
         }
