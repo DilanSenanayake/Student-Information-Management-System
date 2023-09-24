@@ -21,60 +21,60 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public ResponseDto createProfile(Profile profile) throws Exception {
+    public ResponseDto<Profile> createProfile(Profile profile) throws Exception {
         profile.setStudentId(randomUUID().toString());
         Profile createdProfile;
         Profile existingProfile = studentRepository.getProfileByEmail(profile.getEmail());
 
         // Check existing profile for given email address
         if (existingProfile != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"Profile already exists", null);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"Profile already exists", null);
         } else {
             createdProfile = studentRepository.saveProfile(profile);
 
             if (createdProfile != null) {
-                return new ResponseDto(HttpStatus.CREATED.toString(),"Profile created successfully", createdProfile);
+                return new ResponseDto<>(HttpStatus.CREATED.toString(),"Profile created successfully", createdProfile);
             } else {
-                return new ResponseDto(HttpStatus.CREATED.toString(),"Profile creation failed", null);
+                return new ResponseDto<>(HttpStatus.CREATED.toString(),"Profile creation failed", null);
             }
         }
 
     }
 
-    public ResponseDto getAllStudents() {
+    public ResponseDto<List<String>> getAllStudents() throws Exception {
         List<String> students = studentRepository.getAllStudents();
         if (students != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"All students found", students);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"All students found", students);
         } else {
-            return new ResponseDto(HttpStatus.OK.toString(),"All students not found", null);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"All students not found", null);
         }
     }
 
-    public ResponseDto getStudentById(String studentId) {
+    public ResponseDto<Profile> getStudentById(String studentId) {
         Profile profile = studentRepository.getStudentById(studentId);
         if (profile != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"student found", profile);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"student found", profile);
         } else {
-            return new ResponseDto(HttpStatus.OK.toString(),"student not found", null);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"student not found", null);
         }
     }
 
-    public ResponseDto updateProfile(String studentId, Profile profile) throws Exception {
+    public ResponseDto<Profile> updateProfile(String studentId, Profile profile) throws Exception {
         profile.setStudentId(studentId);
         Profile updatedProfile = studentRepository.updateProfile(profile);
         if (updatedProfile != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"Student updated", updatedProfile);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"Student updated", updatedProfile);
         } else {
-            return new ResponseDto(HttpStatus.OK.toString(),"Student not updated", null);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"Student not updated", null);
         }
     }
 
-    public ResponseDto deleteStudent(String studentId) throws Exception {
+    public ResponseDto<DeleteResult> deleteStudent(String studentId) throws Exception {
         DeleteResult deleteResult = studentRepository.deleteStudent(studentId);
         if (deleteResult != null) {
-            return new ResponseDto(HttpStatus.OK.toString(),"Student deleted", deleteResult);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"Student deleted", deleteResult);
         } else {
-            return new ResponseDto(HttpStatus.OK.toString(),"Student not deleted", null);
+            return new ResponseDto<>(HttpStatus.OK.toString(),"Student not deleted", null);
         }
     }
 }

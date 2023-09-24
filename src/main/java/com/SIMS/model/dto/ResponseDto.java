@@ -1,11 +1,10 @@
 package com.SIMS.model.dto;
-import java.io.Serializable;
 
-public class ResponseDto implements Serializable {
+public class ResponseDto<T> {
 
     private String code;
     private String message;
-    private Object data;
+    private T data;
 
     /**
      * Create a responseMessage.
@@ -14,7 +13,7 @@ public class ResponseDto implements Serializable {
      * @param msg  Custom message
      * @param obj  return data object if error the null
      */
-    public ResponseDto(String code, String msg, Object obj) {
+    public ResponseDto(String code, String msg, T obj) {
         this.code = code;
         this.message = msg;
         this.data = obj;
@@ -36,23 +35,14 @@ public class ResponseDto implements Serializable {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return new StringBuilder("ResponseDto{")
-                .append("code='").append(code).append('\'')
-                .append(", message='").append(message).append('\'')
-                .append(", data=").append(data)
-                .append('}')
-                .toString();
-    }
 }
 
 

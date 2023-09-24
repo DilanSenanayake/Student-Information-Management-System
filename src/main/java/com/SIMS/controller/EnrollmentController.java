@@ -1,14 +1,11 @@
 package com.SIMS.controller;
 
-import com.SIMS.model.entity.Course;
-import com.SIMS.model.entity.Profile;
-import com.SIMS.service.CourseService;
 import com.SIMS.service.EnrollmentService;
-import com.SIMS.service.StudentService;
 import com.SIMS.model.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
@@ -21,19 +18,19 @@ public class EnrollmentController {
     }
 
     @PostMapping(value = "/students/{studentId}/enrollments/{courseId}")
-    public ResponseDto enroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
+    public ResponseDto<String> enroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
         return enrollmentService.enroll(studentId, courseId);
     }
     @GetMapping(value = "/students/{studentId}/enrollments")
-    public ResponseDto coursesEnrolledByStudent(@PathVariable String studentId) throws Exception {
+    public ResponseDto<List<String>> coursesEnrolledByStudent(@PathVariable String studentId) throws Exception {
         return enrollmentService.coursesEnrolledByStudent(studentId);
     }
     @GetMapping(value = "/courses/{courseId}/enrollments")
-    public ResponseDto studentsEnrolledToCourse(@PathVariable String courseId) throws Exception {
+    public ResponseDto<List<String>> studentsEnrolledToCourse(@PathVariable String courseId) throws Exception {
         return enrollmentService.studentsEnrolledToCourse(courseId);
     }
     @DeleteMapping(value = "/students/{studentId}/enrollments/{courseId}")
-    public ResponseDto unEnroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
+    public ResponseDto<String> unEnroll(@PathVariable String studentId, @PathVariable String courseId) throws Exception {
         return enrollmentService.unEnroll(studentId, courseId);
     }
 }

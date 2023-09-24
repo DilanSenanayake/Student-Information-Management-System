@@ -1,10 +1,10 @@
 package com.SIMS.model.entity;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Entity
+@Document
 public class Profile {
     @Id
     private String studentId;
