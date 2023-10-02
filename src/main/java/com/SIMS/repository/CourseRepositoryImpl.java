@@ -103,8 +103,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         query.addCriteria(Criteria.where("courseId").is(courseId));
         if (existingCourse != null) {
             return mongoTemplate.remove(query, Course.class);
-        } else {
-            throw new Exception("Course not found");
         }
+        throw new Exception("Course not found");
     }
 }

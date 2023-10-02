@@ -42,9 +42,8 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                         Update updateStudent = new Update().push("courses", courseId);
                         mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                         return "Enrolled successfully.";
-                    } else {
-                        throw new Exception("Student already enrolled");
                     }
+                    throw new Exception("Student already enrolled");
                 } else {
                     Query updateQuery = new Query();
                     updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
@@ -58,12 +57,10 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                     mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                     return "Enrolled successfully.";
                 }
-            } else {
-                throw new Exception("Student not found");
             }
-        } else {
-            throw new Exception("Course not found");
+            throw new Exception("Student not found");
         }
+        throw new Exception("Course not found");
     }
 
     @Override
@@ -73,9 +70,8 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
         Profile student = mongoTemplate.findOne(query, Profile.class);
         if (student != null) {
             return student.getCourses();
-        } else {
-            throw new Exception("Student not found");
         }
+        throw new Exception("Student not found");
     }
 
     @Override
@@ -85,9 +81,8 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
         Course course = mongoTemplate.findOne(query, Course.class);
         if (course != null) {
             return course.getStudents();
-        } else {
-            throw new Exception("Course not found");
         }
+        throw new Exception("Course not found");
     }
 
     @Override
@@ -113,17 +108,13 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                         Update updateStudent = new Update().pull("courses", courseId);
                         mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                         return "UnEnrolled successfully.";
-                    } else {
-                        throw new Exception("Student already unenrolled");
                     }
-                } else {
-                    throw  new Exception("Student not enrolled any courses");
+                    throw new Exception("Student already unenrolled");
                 }
-            } else {
-                throw new Exception("Student not found");
+                throw  new Exception("Student not enrolled any courses");
             }
-        } else {
-            throw new Exception("Course not found");
+            throw new Exception("Student not found");
         }
+        throw new Exception("Course not found");
     }
 }

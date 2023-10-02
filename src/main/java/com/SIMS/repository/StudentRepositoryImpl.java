@@ -43,9 +43,8 @@ public class StudentRepositoryImpl implements StudentRepository {
             return studentProfiles.stream()
                     .map(profile -> profile.getFirstName() + " " + profile.getLastName())
                     .collect(Collectors.toList());
-        } else {
-            throw new Exception("No students found");
         }
+        throw new Exception("No students found");
 
     }
 
@@ -69,9 +68,8 @@ public class StudentRepositoryImpl implements StudentRepository {
             FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions();
             findAndModifyOptions.returnNew(true);
             return mongoTemplate.findAndModify(query, update, findAndModifyOptions, Profile.class);
-        } else {
-            throw new Exception("Student not found");
         }
+        throw new Exception("Student not found");
     }
 
     @Override
@@ -81,8 +79,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         query.addCriteria(Criteria.where("studentId").is(studentId));
         if (existingProfile != null) {
             return mongoTemplate.remove(query, Profile.class);
-        } else {
-            throw new Exception("Student not found");
         }
+        throw new Exception("Student not found");
     }
 }
