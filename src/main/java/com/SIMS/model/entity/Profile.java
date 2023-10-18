@@ -1,5 +1,6 @@
 package com.SIMS.model.entity;
 import jakarta.persistence.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 @Document
 public class Profile {
     @Id
+    private String id;
+    @Indexed
     private String studentId;
     private String firstName;
     private String lastName;
@@ -51,5 +54,12 @@ public class Profile {
 
     public void setCourses(List<String> courses) {
         this.courses = courses;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

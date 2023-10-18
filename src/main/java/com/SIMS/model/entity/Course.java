@@ -1,14 +1,17 @@
 package com.SIMS.model.entity;
 
 import jakarta.persistence.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-// should let mongodb create the unique id and use another field for CourseId
+
 @Document
 public class Course {
     @Id
+    private String id;
+    @Indexed
     private String courseId;
     private String name;
     private List<String> students;
@@ -41,5 +44,12 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
