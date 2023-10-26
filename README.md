@@ -97,3 +97,5 @@ ID.
 identifier of the course. 
 • Description: Remove a student's enrollment from a specific course by providing both the 
 student's ID and the course ID. 
+
+Swagger: localhost:8080/swagger-ui/index.html
