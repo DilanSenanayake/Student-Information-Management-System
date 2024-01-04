@@ -1,9 +1,9 @@
 package com.SIMS.model.dto;
 
 public class CreateStudentDto {
-    String firstName;
-    String lastName;
-    String email;
+    private String firstName;
+    private String lastName;
+    private String email;
 
     public String getFirstName() {
         return firstName;
