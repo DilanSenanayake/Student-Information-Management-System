@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
+@CrossOrigin(origins = "*")
 @Tag(name = "Enrollment", description = "Endpoint for enrollments")
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;

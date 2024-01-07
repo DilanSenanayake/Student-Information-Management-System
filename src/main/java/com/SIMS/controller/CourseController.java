@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
+@CrossOrigin(origins = "*")
 @Tag(name = "Course", description = "Endpoint for Courses")
 public class CourseController {
     private final CourseService courseService;
