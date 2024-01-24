@@ -1,5 +1,6 @@
 package com.SIMS.repository;
 
+import com.SIMS.exception.EntityNotFoundException;
 import com.SIMS.model.entity.Profile;
 import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class StudentRepositoryImpl implements StudentRepository {
                     .map(profile -> profile.getFirstName() + " " + profile.getLastName())
                     .collect(Collectors.toList());
         }
-        throw new Exception("No students found");
+        throw new EntityNotFoundException("No students found");
 
     }
 
@@ -69,7 +70,7 @@ public class StudentRepositoryImpl implements StudentRepository {
             findAndModifyOptions.returnNew(true);
             return mongoTemplate.findAndModify(query, update, findAndModifyOptions, Profile.class);
         }
-        throw new Exception("Student not found");
+        throw new EntityNotFoundException("Student not found");
     }
 
     @Override
@@ -80,6 +81,6 @@ public class StudentRepositoryImpl implements StudentRepository {
         if (existingProfile != null) {
             return mongoTemplate.remove(query, Profile.class);
         }
-        throw new Exception("Student not found");
+        throw new EntityNotFoundException("Student not found");
     }
 }

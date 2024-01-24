@@ -1,5 +1,7 @@
 package com.SIMS.repository;
 
+import com.SIMS.exception.EntityAlreadyExistsException;
+import com.SIMS.exception.EntityNotFoundException;
 import com.SIMS.model.entity.Course;
 import com.SIMS.model.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                         mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                         return "Enrolled successfully.";
                     }
-                    throw new Exception("Student already enrolled");
+                    throw new EntityAlreadyExistsException("Student already enrolled", existingStudent);
                 } else {
                     Query updateQuery = new Query();
                     updateQuery.addCriteria(Criteria.where("courseId").is(courseId));
@@ -58,9 +60,9 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                     return "Enrolled successfully.";
                 }
             }
-            throw new Exception("Student not found");
+            throw new EntityNotFoundException("Student not found");
         }
-        throw new Exception("Course not found");
+        throw new EntityNotFoundException("Course not found");
     }
 
     @Override
@@ -71,7 +73,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
         if (student != null) {
             return student.getCourses();
         }
-        throw new Exception("Student not found");
+        throw new EntityNotFoundException("Student not found");
     }
 
     @Override
@@ -82,7 +84,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
         if (course != null) {
             return course.getStudents();
         }
-        throw new Exception("Course not found");
+        throw new EntityNotFoundException("Course not found");
     }
 
     @Override
@@ -109,12 +111,12 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository{
                         mongoTemplate.updateFirst(studentQuery, updateStudent, Profile.class);
                         return "UnEnrolled successfully.";
                     }
-                    throw new Exception("Student already unenrolled");
+                    throw new EntityNotFoundException("Student already unenrolled");
                 }
-                throw  new Exception("Student not enrolled any courses");
+                throw  new EntityNotFoundException("Student not enrolled any courses");
             }
-            throw new Exception("Student not found");
+            throw new EntityNotFoundException("Student not found");
         }
-        throw new Exception("Course not found");
+        throw new EntityNotFoundException("Course not found");
     }
 }

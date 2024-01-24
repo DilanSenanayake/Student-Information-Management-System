@@ -1,5 +1,6 @@
 package com.SIMS.repository;
 
+import com.SIMS.exception.EntityNotFoundException;
 import com.SIMS.model.entity.Course;
 import com.SIMS.model.entity.Profile;
 import com.mongodb.client.result.DeleteResult;
@@ -49,7 +50,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     public Course updateCourse(Course course) throws Exception {
         Course existingCourse = getCourseById(course.getCourseId());
         if (existingCourse == null) {
-            throw new Exception("Course not found");
+            throw new EntityNotFoundException("Course not found");
         } else {
             Query query = new Query();
             query.addCriteria(Criteria.where("courseId").is(course.getCourseId()));
@@ -104,6 +105,6 @@ public class CourseRepositoryImpl implements CourseRepository {
         if (existingCourse != null) {
             return mongoTemplate.remove(query, Course.class);
         }
-        throw new Exception("Course not found");
+        throw new EntityNotFoundException("Course not found");
     }
 }
