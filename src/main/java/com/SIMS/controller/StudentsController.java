@@ -32,7 +32,7 @@ public class StudentsController {
 
     @GetMapping(value = "/students")
     @Operation(summary = "Get all student", description = "Get all student")
-    public ResponseDto<List<String>> getAllStudents() throws Exception {
+    public ResponseDto<List<Profile>> getAllStudents() throws Exception {
         return studentService.getAllStudents();
     }
 

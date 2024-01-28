@@ -7,7 +7,7 @@ import java.util.List;
 public interface StudentRepository {
     Profile saveProfile(Profile profile);
     Profile getProfileByEmail(String email);
-    List<String> getAllStudents() throws Exception;
+    List<Profile> getAllStudents() throws Exception;
     Profile getStudentById(String studentId);
     Profile updateProfile(Profile profile) throws Exception;
     DeleteResult deleteStudent(String studentId) throws Exception;

@@ -1,13 +1,13 @@
 package com.SIMS.model.dto;
 
 public class CreateCourseDto {
-    private String name;
+    private String CourseName;
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return CourseName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String courseName) {
+        this.CourseName = courseName;
     }
 }

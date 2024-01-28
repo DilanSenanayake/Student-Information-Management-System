@@ -37,13 +37,11 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public List<String> getAllStudents() throws Exception {
+    public List<Profile> getAllStudents() throws Exception {
         Query query = new Query();
         List<Profile> studentProfiles = mongoTemplate.find(query, Profile.class);
         if (studentProfiles.size() != 0) {
-            return studentProfiles.stream()
-                    .map(profile -> profile.getFirstName() + " " + profile.getLastName())
-                    .collect(Collectors.toList());
+            return studentProfiles;
         }
         throw new EntityNotFoundException("No students found");
 

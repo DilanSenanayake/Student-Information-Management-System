@@ -21,7 +21,7 @@ public class CourseService {
     }
 
     public ResponseDto<Course> createCourse(CreateCourseDto courseName) {
-        Course course = new Course(randomUUID().toString(),courseName.getName(),null);
+        Course course = new Course(randomUUID().toString(),courseName.getCourseName(),null);
         Course createdCourse = courseRepository.createCourse(course);
         if (createdCourse != null) {
             return new ResponseDto<>(HttpStatus.CREATED.toString(), "Course created successfully", createdCourse);

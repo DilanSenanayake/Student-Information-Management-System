@@ -40,8 +40,8 @@ public class StudentService {
 
     }
 
-    public ResponseDto<List<String>> getAllStudents() throws Exception {
-        List<String> students = studentRepository.getAllStudents();
+    public ResponseDto<List<Profile>> getAllStudents() throws Exception {
+        List<Profile> students = studentRepository.getAllStudents();
         if (students != null) {
             return new ResponseDto<>(HttpStatus.OK.toString(),"All students found", students);
         }
